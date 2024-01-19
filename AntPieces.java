@@ -6,8 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.awt.Graphics;
 
 class AntPieces extends JPanel {
@@ -38,17 +37,32 @@ class AntPieces extends JPanel {
     };
     private int[] currentPositionIndex = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private int[] countWin = new int[] { 0, 0, 0, 0 };
+    private ArrayList<Stack<Integer>> antIndexOnTop = new ArrayList<>();
 
-    public AntPieces(String[] pieceImagesPath) {
+    public void printAntIndexOnTop() {
+        for (int i = 0; i < 17; i++) {
+            if (antIndexOnTop.get(i).empty()) {
+                antIndexOnTop.get(i).add(-1);
+            } else {
+                System.out.print(antIndexOnTop.get(i).lastElement() + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public AntPieces(String[] antImagesPath) {
+        for (int i = 0; i < 17; i++) {
+            antIndexOnTop.add(new Stack<>());
+        }
         try {
-            for (int i = 0; i < pieceImagesPath.length; i++) {
+            for (int i = 0; i < antImagesPath.length; i++) {
                 for (int[] position : Positions) {
                     possiblePositions.add(position);
                 }
 
                 // Create 4 ant for each player
                 for (int j = 0; j < 4; j++) {
-                    Image newPieceImage = ImageIO.read(new File(pieceImagesPath[i])); // Load the piece image
+                    Image newPieceImage = ImageIO.read(new File(antImagesPath[i])); // Load the piece image
                     newPieceImage = newPieceImage.getScaledInstance(pieceWidth, pieceHeight, Image.SCALE_SMOOTH); // Resize
                                                                                                                   // the
                                                                                                                   // piece
@@ -92,7 +106,14 @@ class AntPieces extends JPanel {
                     currentPositionIndex[i] != 15 && character.remainingAntMove > 0) {
 
                 // Move the piece to the next possible position
-                currentPositionIndex[i] = currentPositionIndex[i] + 1;
+                int currentPosition = currentPositionIndex[i];
+                int nextPosition = currentPosition + 1;
+                if (currentPosition != 0) {
+                    antIndexOnTop.get(currentPosition).pop();
+                }
+                currentPositionIndex[i] = nextPosition;
+                antIndexOnTop.get(nextPosition).add(i);
+                printAntIndexOnTop();
 
                 // Reduce remaining move count
                 character.reduceAntMoveCount();
