@@ -10,7 +10,7 @@ import java.util.*;
 import java.awt.Graphics;
 
 class AntPieces extends JPanel {
-    private ArrayList<Piece> pieces = new ArrayList<>();
+    private ArrayList<Ant> antPieces = new ArrayList<>();
     private ArrayList<Image> pieceImage = new ArrayList<>(); // Image for the piece
     private int pieceWidth = 30; // Desired width for the piece image
     private int pieceHeight = 30; // Desired height for the piece image;
@@ -38,6 +38,15 @@ class AntPieces extends JPanel {
     private int[] currentPositionIndex = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private int[] countWin = new int[] { 0, 0, 0, 0 };
     private ArrayList<Stack<Integer>> antIndexOnTop = new ArrayList<>();
+
+    public void executeAnt(int antPosition) {
+        int topOfPosition = antIndexOnTop.get(antPosition).lastElement();
+        if (topOfPosition ==  -1) {
+            return;
+        }
+        antPieces.get(topOfPosition).killed();
+        
+    }
 
     public void printAntIndexOnTop() {
         for (int i = 0; i < 17; i++) {
@@ -68,9 +77,9 @@ class AntPieces extends JPanel {
                                                                                                                   // piece
                                                                                                                   // image
                     pieceImage.add(newPieceImage);
-                    Piece newPiece = new Piece(possiblePositions.get(0)[0 + i * 2],
-                            possiblePositions.get(0)[1 + i * 2]);
-                    pieces.add(newPiece);
+                    Ant newPiece = new Ant(possiblePositions.get(0)[0 + i * 2],
+                            possiblePositions.get(0)[1 + i * 2], (int) Math.floor(i / 4));
+                    antPieces.add(newPiece);
                 }
             }
         } catch (IOException e) {
@@ -78,8 +87,8 @@ class AntPieces extends JPanel {
         }
     }
 
-    public ArrayList<Piece> getPieces() {
-        return pieces;
+    public ArrayList<Ant> getPieces() {
+        return antPieces;
     }
 
     public ArrayList<Image> getPieceImage() {
@@ -87,10 +96,10 @@ class AntPieces extends JPanel {
     }
 
     public void drawAntPieces(Graphics g) {
-        if (pieceImage != null && pieces != null) {
+        if (pieceImage != null && antPieces != null) {
             for (int i = 0; i < pieceImage.size(); i++) {
-                int x = pieces.get(i).getX() - pieceWidth / 2; // Adjust position to center the piece image
-                int y = pieces.get(i).getY() - pieceHeight / 2; // Adjust position to center the piece image
+                int x = antPieces.get(i).getX() - pieceWidth / 2; // Adjust position to center the piece image
+                int y = antPieces.get(i).getY() - pieceHeight / 2; // Adjust position to center the piece image
                 g.drawImage(pieceImage.get(i), x, y, this); // Draw the resized piece image at the piece's position
             }
         }
@@ -99,8 +108,8 @@ class AntPieces extends JPanel {
     public void detectAndMoveAnt(MouseEvent e, Character character, TurnLabel turnLabel, Function repaintFunction) {
         int currentTurn = character.getTurn();
         for (int i = currentTurn * 4; i < currentTurn * 4 + 4; i++) {
-            int pieceX = pieces.get(i).getX() - pieceWidth / 2;
-            int pieceY = pieces.get(i).getY() - pieceHeight / 2;
+            int pieceX = antPieces.get(i).getX() - pieceWidth / 2;
+            int pieceY = antPieces.get(i).getY() - pieceHeight / 2;
             if (e.getX() >= pieceX && e.getX() <= pieceX + pieceWidth &&
                     e.getY() >= pieceY && e.getY() <= pieceY + pieceHeight &&
                     currentPositionIndex[i] != 15 && character.remainingAntMove > 0) {
@@ -154,8 +163,8 @@ class AntPieces extends JPanel {
                     x = 35;
                     y = 35;
                 }
-                pieces.get(i).setX(newPosition[0] + x);
-                pieces.get(i).setY(newPosition[1] + y);
+                antPieces.get(i).setX(newPosition[0] + x);
+                antPieces.get(i).setY(newPosition[1] + y);
 
                 repaintFunction.apply();
                 break;

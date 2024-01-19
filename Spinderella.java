@@ -14,7 +14,7 @@ public class Spinderella {
 
         MapPanel mapPanel = new MapPanel("Map/map.jpg",
                 new String[] { "Ant/Ant-8-blue.png", "Ant/Ant-8-green.png", "Ant/Ant-8-pink.png", "Ant/Ant-8-red.png" },
-                "Dices/", new String[] { "Spider/Spider.png", "Spider/Spider2.png"});
+                "Dices/AntDices/", new String[] { "Spider/Spider.png", "Spider/Spider2.png"});
 
         frame.add(mapPanel);
         frame.setLayout(null);
