@@ -1,5 +1,4 @@
 import java.util.*;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -11,12 +10,14 @@ public class SpiderPieces extends JPanel{
     private static final int PETERINITIALPOSITION = 31;
     private Spider[] spider = new Spider[2];
     private LinkedList<int[]> possiblespiderPosition = new LinkedList<>();
-    private int spiderMove = 5;
     private int[] initialSpiderPosition = { 114, 113 };
     private ArrayList<Integer> listOfRearPosition = new ArrayList<>(
             Arrays.asList(0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 11, 17, 23, 29, 30, 31, 32, 33, 34, 35));
     Map<Integer, Integer> spiderPositionToAntPosition = new HashMap<>();
+ 
     private Function repaintFunction;
+    private Character character;
+    private StatusLabel statusLabel;
 
     // 105 pixel each location
     public double pythagore(int x1, int y1, int x2, int y2) {
@@ -82,11 +83,18 @@ public class SpiderPieces extends JPanel{
                     isRearAndMoveRear = true;
                 }
                 if (((moveDistance > 140 && moveDistance < 150)
-                        || (100 < moveDistance && moveDistance < 110 && isRearAndMoveRear)) && spiderMove > 0) {
+                        || (100 < moveDistance && moveDistance < 110 && isRearAndMoveRear)) && character.remainingSpiderMove > 0) {
                     sp.moveTo(possiblespiderPosition.get(index)[0], possiblespiderPosition.get(index)[1]);
                     sp.setCurrentPosition(sp.getX(), sp.getY());
                     sp.index = index;
-                    spiderMove--;
+                    character.remainingSpiderMove--;
+                    statusLabel.setSpiderMove(character.remainingSpiderMove);
+                    
+                    if (character.remainingSpiderMove == 0) {
+                        character.changeTurn();
+                        statusLabel.setTurn(String.valueOf(character.getTurn() + 1));
+                    }
+
                     double distanceBetweenSpiders = calculateDistanceBetweenSpiders();
                     if (spiderPositionToAntPosition.containsKey(spider[0].index)
                             && (100 < distanceBetweenSpiders && distanceBetweenSpiders < 150)) {
@@ -105,14 +113,13 @@ public class SpiderPieces extends JPanel{
             int spiderX = sp.getX() - 50 / 2;
             int spiderY = sp.getY() - 50 / 2;
             g.drawImage(sp.getSpiderImage(), spiderX, spiderY, this);
-            String movesText = "Moves: " + spiderMove;
-            g.setFont(new Font("Arial", Font.BOLD, 30));
-            g.drawString(movesText, 250, 50);
         }
     }
 
-    public SpiderPieces(String[] spiderPath, Function repaintFunction) {
+    public SpiderPieces(String[] spiderPath, Function repaintFunction, Character character, StatusLabel statusLabel) {
+        this.statusLabel = statusLabel;
         this.repaintFunction = repaintFunction;
+        this.character = character;
 
         int[] antPosToSpider = { 25, 20, 15, 22, 27, 34, 29, 17, 10, 8, 13, 6, 1, 3 };
         for (int i = 1; i <= 14; i++) {

@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 
 class MapPanel extends JPanel {
     private Image mapImage;
+    private Image diceBackgroundImage;
     private Character character = new Character();
     private boolean antMapVisible = true;
 
@@ -17,9 +18,11 @@ class MapPanel extends JPanel {
 
     private SpiderPieces spiderPieces;
 
-    private TurnLabel turnLabel;
+    private StatusLabel statusLabel;
 
-    private DicePanel dicePanel;
+    private DicePanel antDicePanel;
+    private DicePanel spiderDicePanel;
+    private DicePanel generalDicePanel;
 
     private RollButton rollButton;
 
@@ -31,29 +34,31 @@ class MapPanel extends JPanel {
         try {
             this.mapImage = ImageIO.read(new File(updatedImagePath));
             this.antMapVisible = antMapVisible;
-            turnLabel.setVisible(antMapVisible);
-            rollButton.setVisible(antMapVisible);
             repaint();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    public MapPanel(String mapImagePath, String[] antImagesPath, String dicesPath, String[] spiderPath) {
+    public MapPanel(String[] mapImagePath, String[] antImagesPath, String[] dicesPath, String[] spiderPath) {
         try {
-            mapImage = ImageIO.read(new File(mapImagePath));
+            mapImage = ImageIO.read(new File(mapImagePath[0]));
+            diceBackgroundImage = ImageIO.read(new File(mapImagePath[1]));
             antPieces = new AntPieces(antImagesPath);
-            dicePanel = new DicePanel(dicesPath);
-            spiderPieces = new SpiderPieces(spiderPath, repaintFunction);
+            antDicePanel = new DicePanel(dicesPath[0]);
+            spiderDicePanel = new DicePanel(dicesPath[1]);
+            generalDicePanel = new DicePanel(dicesPath[2]);
+            spiderPieces = new SpiderPieces(spiderPath, repaintFunction, character, statusLabel);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        turnLabel = new TurnLabel("Player 1 ", "0"); // Initial label text
-        this.add(turnLabel);
+        statusLabel = new StatusLabel(); // Initial label text
+        this.add(statusLabel);
 
-        rollButton = new RollButton("Roll Dice", character, dicePanel, turnLabel, repaintFunction, revalidateFunction);
+        rollButton = new RollButton(character,
+                new DicePanel[] { antDicePanel, spiderDicePanel, generalDicePanel }, statusLabel, repaintFunction,
+                revalidateFunction);
         this.add(rollButton);
 
         setLayout(null);
@@ -64,7 +69,7 @@ class MapPanel extends JPanel {
                 // System.out.println("x: " + e.getX() + " y: " + e.getY());
                 // Check if the mouse click is within the bounds of the piece
                 if (antMapVisible) {
-                    antPieces.detectAndMoveAnt(e, character, turnLabel, repaintFunction);
+                    antPieces.detectAndMoveAnt(e, character, statusLabel, repaintFunction);
                 }
             }
 
@@ -93,8 +98,9 @@ class MapPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (mapImage != null) {
-            g.drawImage(mapImage, 0, 0, getWidth(), getHeight(), this);
+        if (mapImage != null && diceBackgroundImage != null) {
+            g.drawImage(mapImage, 0, 0, 750, 750, this);
+            g.drawImage(diceBackgroundImage, 750, 0, 265, 750, this);
         }
 
         if (antMapVisible) {
@@ -103,8 +109,10 @@ class MapPanel extends JPanel {
             spiderPieces.drawSpiderPieces(g);
         }
 
-        if (dicePanel.getCurrentDice() != null && antMapVisible) {
-            g.drawImage(dicePanel.getCurrentDice(), 50, 50, this);
+        if (antDicePanel.getCurrentDice() != null) {
+            g.drawImage(generalDicePanel.getCurrentDice(), 775, 25, this);
+            g.drawImage(antDicePanel.getCurrentDice(), 775, 25 + 180 + 25, this);
+            g.drawImage(spiderDicePanel.getCurrentDice(), 775, 230 + 205, this);
         }
     }
 }

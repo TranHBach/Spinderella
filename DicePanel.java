@@ -13,7 +13,7 @@ class DicePanel extends JPanel {
         try {
             for (int i = 1; i < 7; i++) {
                 diceImages[i - 1] = ImageIO.read(new File(dicesPath + i + ".png"));
-                diceImages[i - 1] = diceImages[i - 1].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                diceImages[i - 1] = diceImages[i - 1].getScaledInstance(180, 180, Image.SCALE_SMOOTH);
             }
             current_dice = diceImages[0];
         } catch (IOException e) {

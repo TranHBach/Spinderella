@@ -105,7 +105,7 @@ class AntPieces extends JPanel {
         }
     }
 
-    public void detectAndMoveAnt(MouseEvent e, Character character, TurnLabel turnLabel, Function repaintFunction) {
+    public void detectAndMoveAnt(MouseEvent e, Character character, StatusLabel statusLabel, Function repaintFunction) {
         int currentTurn = character.getTurn();
         for (int i = currentTurn * 4; i < currentTurn * 4 + 4; i++) {
             int pieceX = antPieces.get(i).getX() - pieceWidth / 2;
@@ -126,14 +126,12 @@ class AntPieces extends JPanel {
 
                 // Reduce remaining move count
                 character.reduceAntMoveCount();
-                turnLabel.setMove(character.remainingAntMove);
-                turnLabel.updateText();
+                statusLabel.setAntMove(character.remainingAntMove);
 
                 // Change player turn
                 if (character.remainingAntMove == 0) {
                     character.changeTurn();
-                    turnLabel.setTurn(String.valueOf(character.getTurn() + 1));
-                    turnLabel.updateText();
+                    statusLabel.setTurn(String.valueOf(character.getTurn() + 1));
                 }
 
                 // 15 is the number of moves needed to reach the end. Change to 1 if need to
