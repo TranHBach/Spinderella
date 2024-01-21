@@ -105,8 +105,18 @@ public class SpiderPieces extends JPanel {
                     double distanceBetweenSpiders = calculateDistanceBetweenSpiders();
                     if (spiderPositionToAntPosition.containsKey(spider[0].index)
                             && (100 < distanceBetweenSpiders && distanceBetweenSpiders < 150)) {
-                        int antPosition = spiderPositionToAntPosition.get(sp.index);
-                        antPieces.executeAnt(antPosition);
+                        int antPosition = spiderPositionToAntPosition.get(spider[0].index);
+                        boolean isAntKilled = antPieces.executeAnt(antPosition);
+                        if (isAntKilled) {
+                            Random rand = new Random();
+                            for (Spider tempSp : spider) {
+                                int randomPosition = rand.nextInt(36);
+                                tempSp.moveTo(possiblespiderPosition.get(randomPosition)[0],
+                                        possiblespiderPosition.get(randomPosition)[1]);
+                                tempSp.setCurrentPosition(tempSp.getX(), tempSp.getY());
+                                tempSp.index = randomPosition;
+                            }
+                        }
                     }
                 } else {
                     sp.failedmove();

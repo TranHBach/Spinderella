@@ -40,12 +40,13 @@ class AntPieces extends JPanel {
     private int[] countWin = new int[] { 0, 0, 0, 0 };
     private ArrayList<Stack<Integer>> antIndexOnTop = new ArrayList<>();
 
-    public void executeAnt(int antPosition) {
+    public boolean executeAnt(int antPosition) {
         int topOfPosition = antIndexOnTop.get(antPosition).lastElement();
         if (topOfPosition ==  -1) {
-            return;
+            return false;
         }
         antPieces.get(topOfPosition).killed();
+        return true;
         
     }
 
