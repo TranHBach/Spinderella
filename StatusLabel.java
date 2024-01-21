@@ -6,6 +6,7 @@ class StatusLabel extends JPanel {
     private JLabel objectMoveLabel = new JLabel("Object Move: " + 0);
     private JLabel antMoveLabel = new JLabel("Ant Move: " + 0);
     private JLabel spiderMoveLabel = new JLabel("Spider Move: " + 0);
+    private Function repaintFunction;
 
     public void initializeAllLabel() {
         Font gameFont = new Font("Comic Sans MS", Font.PLAIN, 16); // You can adjust the size as needed
@@ -28,8 +29,9 @@ class StatusLabel extends JPanel {
         add(spiderMoveLabel);
     }
 
-    public StatusLabel() {
+    public StatusLabel(Function repaintFunction) {
         super(new GridLayout(2, 2));
+        this.repaintFunction = repaintFunction;
         initializeAllLabel();
 
         addLabelToPanel();
@@ -45,19 +47,17 @@ class StatusLabel extends JPanel {
     public void setTurn(String nextTurn) {
         playerTurnLabel.setText("Player turn: " + nextTurn);
         playerTurnLabel.revalidate();
-        repaint();
+        repaintFunction.apply();
     }
 
     public void setAntMove(int numMove) {
         antMoveLabel.setText("Ant Move: " + String.valueOf(numMove));
-        revalidate();
-        repaint();
+        repaintFunction.apply();
     }
 
     public void setSpiderMove(int numMove) {
         spiderMoveLabel.setText("Spider Move: " + String.valueOf(numMove));
-        revalidate();
-        repaint();
+        repaintFunction.apply();
     }
 
     public void setObjectMove(int obj) {
@@ -68,7 +68,6 @@ class StatusLabel extends JPanel {
         } else if (obj % 3 == 2) {
             objectMoveLabel.setText("Object Move: " + "Spider");
         }
-        revalidate();
-        repaint();
+        repaintFunction.apply();
     }
 }

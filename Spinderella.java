@@ -41,10 +41,10 @@ public class Spinderella {
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
                     // Call method to update map with new background and ant visibility
-                    mapPanel.swapMap("Map/map2.jpg", false);
+                    mapPanel.swapMap("Map/map2.jpg", 2);
                 } else if (keyCode == KeyEvent.VK_LEFT) {
                     // Call method to update map with original background and ant visibility
-                    mapPanel.swapMap("Map/map.jpg", true);
+                    mapPanel.swapMap("Map/map.jpg", 1);
                 }
             }
 

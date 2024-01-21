@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import java.awt.event.MouseEvent;
 
-public class SpiderPieces extends JPanel{
+public class SpiderPieces extends JPanel {
     private static final int PARKERINITIALPOSITION = 30;
     private static final int PETERINITIALPOSITION = 31;
     private Spider[] spider = new Spider[2];
@@ -14,7 +14,7 @@ public class SpiderPieces extends JPanel{
     private ArrayList<Integer> listOfRearPosition = new ArrayList<>(
             Arrays.asList(0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 11, 17, 23, 29, 30, 31, 32, 33, 34, 35));
     Map<Integer, Integer> spiderPositionToAntPosition = new HashMap<>();
- 
+
     private Function repaintFunction;
     private Character character;
     private StatusLabel statusLabel;
@@ -83,13 +83,20 @@ public class SpiderPieces extends JPanel{
                     isRearAndMoveRear = true;
                 }
                 if (((moveDistance > 140 && moveDistance < 150)
-                        || (100 < moveDistance && moveDistance < 110 && isRearAndMoveRear)) && character.remainingSpiderMove > 0) {
+                        || (100 < moveDistance && moveDistance < 110 && isRearAndMoveRear))
+                        && character.remainingSpiderMove > 0) {
                     sp.moveTo(possiblespiderPosition.get(index)[0], possiblespiderPosition.get(index)[1]);
                     sp.setCurrentPosition(sp.getX(), sp.getY());
                     sp.index = index;
                     character.remainingSpiderMove--;
                     statusLabel.setSpiderMove(character.remainingSpiderMove);
-                    
+                    if (character.objectMove == 3) {
+                        character.objectMove = 2;
+                        character.remainingAntMove = 0;
+                        statusLabel.setObjectMove(character.objectMove);
+                        statusLabel.setAntMove(character.remainingAntMove);
+                    }
+
                     if (character.remainingSpiderMove == 0) {
                         character.changeTurn();
                         statusLabel.setTurn(String.valueOf(character.getTurn() + 1));

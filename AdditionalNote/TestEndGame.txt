@@ -1,0 +1,1 @@
+If want to test end game screen, go to file AntPieces.java, search for line 147, set 15 to 1.

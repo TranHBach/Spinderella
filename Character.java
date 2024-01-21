@@ -10,8 +10,6 @@ public class Character {
     // objectMove = 1 means ant move, 2 means spider move, 3 means either can move.
     public int objectMove = 0;
 
-
-
     // Getters and setters for x and y coordinates
     public int getTurn() {
         return playerTurn;

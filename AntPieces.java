@@ -14,6 +14,7 @@ class AntPieces extends JPanel {
     private ArrayList<Image> pieceImage = new ArrayList<>(); // Image for the piece
     private int pieceWidth = 30; // Desired width for the piece image
     private int pieceHeight = 30; // Desired height for the piece image;
+    private Function triggerEndGameFunction;
 
     private LinkedList<int[]> possiblePositions = new LinkedList<>();
     private int[][] Positions = {
@@ -59,7 +60,8 @@ class AntPieces extends JPanel {
         System.out.println();
     }
 
-    public AntPieces(String[] antImagesPath) {
+    public AntPieces(String[] antImagesPath, Function triggerEndGameFunction) {
+        this.triggerEndGameFunction = triggerEndGameFunction;
         for (int i = 0; i < 17; i++) {
             antIndexOnTop.add(new Stack<>());
         }
@@ -122,11 +124,17 @@ class AntPieces extends JPanel {
                 }
                 currentPositionIndex[i] = nextPosition;
                 antIndexOnTop.get(nextPosition).add(i);
-                printAntIndexOnTop();
+                // printAntIndexOnTop();
 
                 // Reduce remaining move count
                 character.reduceAntMoveCount();
                 statusLabel.setAntMove(character.remainingAntMove);
+                if(character.objectMove == 3) {
+                    character.objectMove = 1;
+                    character.remainingSpiderMove = 0;
+                    statusLabel.setObjectMove(character.objectMove);
+                    statusLabel.setSpiderMove(character.remainingSpiderMove);
+                }
 
                 // Change player turn
                 if (character.remainingAntMove == 0) {
@@ -141,7 +149,7 @@ class AntPieces extends JPanel {
                     countWin[playerID]++;
                     // Check if one player got 3 ant to finish line => Print end game.
                     if (countWin[playerID] == 3) {
-                        System.out.println("end game");
+                        triggerEndGameFunction.apply();
                     }
                 }
 
