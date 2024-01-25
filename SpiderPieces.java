@@ -1,5 +1,5 @@
 import java.util.*;
-import java.awt.Graphics;
+import java.awt.*;
 
 import javax.swing.JPanel;
 
@@ -11,8 +11,6 @@ public class SpiderPieces extends JPanel {
     private Spider[] spider = new Spider[2];
     private LinkedList<int[]> possiblespiderPosition = new LinkedList<>();
     private int[] initialSpiderPosition = { 114, 113 };
-    private ArrayList<Integer> listOfRearPosition = new ArrayList<>(
-            Arrays.asList(0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 11, 17, 23, 29, 30, 31, 32, 33, 34, 35));
     Map<Integer, Integer> spiderPositionToAntPosition = new HashMap<>();
 
     private Function repaintFunction;
@@ -37,6 +35,18 @@ public class SpiderPieces extends JPanel {
             i++;
         }
         return res;
+    }
+
+    public void drawStringBetweenSpiders(Graphics g) {
+        int spider1X = spider[0].getX();
+        int spider1Y = spider[0].getY();
+        int spider2X = spider[1].getX();
+        int spider2Y = spider[1].getY();
+        g.setColor(Color.WHITE); // Set the color for the string
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(5)); // Adjust the thickness as needed
+        g2d.drawLine(spider1X, spider1Y, spider2X, spider2Y); // Draw a line between the spiders
+
     }
 
     public double calculateDistanceBetweenSpiders() {
@@ -70,21 +80,32 @@ public class SpiderPieces extends JPanel {
         }
     }
 
+    public boolean preventSameLocation(int index, int currentSpider) {
+        int otherSpider = -1;
+        if (currentSpider == 0) {
+            otherSpider = 1;
+        } else if (currentSpider == 1) {
+            otherSpider = 0;
+        }
+        if (spider[otherSpider].index != index) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void releaseSpider(MouseEvent e, AntPieces antPieces) {
-        for (Spider sp : spider) {
+        for (int i = 0; i < 2; i++) {
+            Spider sp = spider[i];
             if (sp.isDragged()) {
                 sp.dragging(false);
                 int index = findNearestPosition(e.getX(), e.getY());
                 // Update spider's position when released
                 double moveDistance = pythagore(sp.getCurrentX(), sp.getCurrentY(),
                         possiblespiderPosition.get(index)[0], possiblespiderPosition.get(index)[1]);
-                boolean isRearAndMoveRear = false;
-                if (listOfRearPosition.contains(sp.index) && listOfRearPosition.contains(index)) {
-                    isRearAndMoveRear = true;
-                }
                 if (((moveDistance > 140 && moveDistance < 150)
-                        || (100 < moveDistance && moveDistance < 110 && isRearAndMoveRear))
-                        && character.remainingSpiderMove > 0) {
+                        || (100 < moveDistance && moveDistance < 110))
+                        && character.remainingSpiderMove > 0 && preventSameLocation(index, i)) {
                     sp.moveTo(possiblespiderPosition.get(index)[0], possiblespiderPosition.get(index)[1]);
                     sp.setCurrentPosition(sp.getX(), sp.getY());
                     sp.index = index;
@@ -109,8 +130,12 @@ public class SpiderPieces extends JPanel {
                         boolean isAntKilled = antPieces.executeAnt(antPosition);
                         if (isAntKilled) {
                             Random rand = new Random();
-                            for (Spider tempSp : spider) {
+                            for (int j = 0; j < 2; j++) {
+                                Spider tempSp = spider[j];
                                 int randomPosition = rand.nextInt(36);
+                                if (preventSameLocation(randomPosition, j)) {
+                                    randomPosition = rand.nextInt(36);
+                                }
                                 tempSp.moveTo(possiblespiderPosition.get(randomPosition)[0],
                                         possiblespiderPosition.get(randomPosition)[1]);
                                 tempSp.setCurrentPosition(tempSp.getX(), tempSp.getY());
@@ -121,6 +146,7 @@ public class SpiderPieces extends JPanel {
                 } else {
                     sp.failedmove();
                 }
+                break;
             }
         }
     }

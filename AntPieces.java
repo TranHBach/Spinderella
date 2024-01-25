@@ -67,6 +67,11 @@ class AntPieces extends JPanel {
         for (int i = 0; i < 17; i++) {
             antIndexOnTop.add(new Stack<>());
         }
+        for (int i = 0; i < 17; i++) {
+            if (antIndexOnTop.get(i).empty()) {
+                antIndexOnTop.get(i).add(-1);
+            }
+        }
         try {
             for (int i = 0; i < character.getPlayerCount(); i++) {
                 for (int[] position : Positions) {

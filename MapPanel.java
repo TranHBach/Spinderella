@@ -153,6 +153,7 @@ class MapPanel extends JPanel {
             antPieces.drawAntPieces(g);
         } else if (mapVisibility == 3) {
             spiderPieces.drawSpiderPieces(g);
+            spiderPieces.drawStringBetweenSpiders(g);
         } else if (mapVisibility == 4) {
             g.drawImage(mapImage, 0, 0, 995, 750, this);
         }
