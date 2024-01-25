@@ -28,7 +28,7 @@ public class Ant {
     }
 
     public void killed() {
-        this.x = initialPosition[0 + player * 4];
-        this.y = initialPosition[1 + player * 4];
+        this.x = initialPosition[0 + player * 2];
+        this.y = initialPosition[1 + player * 2];
     }
 }

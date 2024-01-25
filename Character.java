@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Character {
     private int playerTurn = 0;
-    private int playerCount = 4;
+    private int playerCount = 2;
     private Random rand = new Random();
 
     public int remainingAntMove = 0;
@@ -16,7 +16,7 @@ public class Character {
     }
 
     public void changeTurn() {
-        this.playerTurn = (playerTurn + 1) % 4;
+        this.playerTurn = (playerTurn + 1) % playerCount;
     }
 
     public int getPlayerCount() {

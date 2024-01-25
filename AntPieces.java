@@ -42,12 +42,13 @@ class AntPieces extends JPanel {
 
     public boolean executeAnt(int antPosition) {
         int topOfPosition = antIndexOnTop.get(antPosition).lastElement();
-        if (topOfPosition ==  -1) {
+        if (topOfPosition == -1) {
             return false;
         }
         antPieces.get(topOfPosition).killed();
+        currentPositionIndex[topOfPosition] = 0;
         return true;
-        
+
     }
 
     public void printAntIndexOnTop() {
@@ -61,13 +62,13 @@ class AntPieces extends JPanel {
         System.out.println();
     }
 
-    public AntPieces(String[] antImagesPath, Function triggerEndGameFunction) {
+    public AntPieces(String[] antImagesPath, Function triggerEndGameFunction, Character character) {
         this.triggerEndGameFunction = triggerEndGameFunction;
         for (int i = 0; i < 17; i++) {
             antIndexOnTop.add(new Stack<>());
         }
         try {
-            for (int i = 0; i < antImagesPath.length; i++) {
+            for (int i = 0; i < character.getPlayerCount(); i++) {
                 for (int[] position : Positions) {
                     possiblePositions.add(position);
                 }
@@ -81,7 +82,7 @@ class AntPieces extends JPanel {
                                                                                                                   // image
                     pieceImage.add(newPieceImage);
                     Ant newPiece = new Ant(possiblePositions.get(0)[0 + i * 2],
-                            possiblePositions.get(0)[1 + i * 2], (int) Math.floor(i / 4));
+                            possiblePositions.get(0)[1 + i * 2], i);
                     antPieces.add(newPiece);
                 }
             }
@@ -110,6 +111,7 @@ class AntPieces extends JPanel {
 
     public void detectAndMoveAnt(MouseEvent e, Character character, StatusLabel statusLabel, Function repaintFunction) {
         int currentTurn = character.getTurn();
+        int numberOfPlayer = character.getPlayerCount();
         for (int i = currentTurn * 4; i < currentTurn * 4 + 4; i++) {
             int pieceX = antPieces.get(i).getX() - pieceWidth / 2;
             int pieceY = antPieces.get(i).getY() - pieceHeight / 2;
@@ -130,7 +132,7 @@ class AntPieces extends JPanel {
                 // Reduce remaining move count
                 character.reduceAntMoveCount();
                 statusLabel.setAntMove(character.remainingAntMove);
-                if(character.objectMove == 3) {
+                if (character.objectMove == 3) {
                     character.objectMove = 1;
                     character.remainingSpiderMove = 0;
                     statusLabel.setObjectMove(character.objectMove);
@@ -146,7 +148,7 @@ class AntPieces extends JPanel {
                 // 15 is the number of moves needed to reach the end. Change to 1 if need to
                 // test end game screen.
                 if (currentPositionIndex[i] == 15) {
-                    int playerID = Math.round(i / 4);
+                    int playerID = Math.round(i / numberOfPlayer);
                     countWin[playerID]++;
                     // Check if one player got 3 ant to finish line => Print end game.
                     if (countWin[playerID] == 3) {

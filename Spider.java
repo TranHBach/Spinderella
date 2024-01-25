@@ -15,7 +15,7 @@ public class Spider {
     public Spider(int initialX, int initialY, String imagePath) {
         try {
             spiderImage = ImageIO.read(new File(imagePath));
-            spiderImage = spiderImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            spiderImage = spiderImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }

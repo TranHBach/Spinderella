@@ -10,10 +10,9 @@ public class Spinderella {
         // 740
         int frameWidth = 995;
         int frameHeight = 783;
-
         frame.setBounds(0, 0, frameWidth, frameHeight);
 
-        MapPanel mapPanel = new MapPanel(new String[] {"Map/map.jpg", "Map/diceBackground.png"},
+        MapPanel mapPanel = new MapPanel(new String[] {"Menu/JungleBackground.png", "Map/diceBackground.png"},
                 new String[] { "Ant/Ant-8-blue.png", "Ant/Ant-8-green.png", "Ant/Ant-8-pink.png", "Ant/Ant-8-red.png" },
                 new String[] { "Dices/AntDices/", "Dices/SpiderDices/", "Dices/GeneralDices/" },
                 new String[] { "Spider/Spider.png", "Spider/Spider2.png" });
@@ -41,10 +40,10 @@ public class Spinderella {
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
                     // Call method to update map with new background and ant visibility
-                    mapPanel.swapMap("Map/map2.jpg", 2);
+                    mapPanel.swapMap("Map/map2.jpg", 3);
                 } else if (keyCode == KeyEvent.VK_LEFT) {
                     // Call method to update map with original background and ant visibility
-                    mapPanel.swapMap("Map/map.jpg", 1);
+                    mapPanel.swapMap("Map/map.jpg", 2);
                 }
             }
 

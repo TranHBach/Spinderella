@@ -51,11 +51,11 @@ public class SpiderPieces extends JPanel {
 
     public void dragSpider(MouseEvent e) {
         for (Spider sp : spider) {
-            int spiderX = sp.getX() - 50 / 2;
-            int spiderY = sp.getY() - 50 / 2;
+            int spiderX = sp.getX() - 100 / 2;
+            int spiderY = sp.getY() - 100 / 2;
             // Check if the mouse click is within the bounds of the spider
-            if (e.getX() >= spiderX && e.getX() <= spiderX + 50 &&
-                    e.getY() >= spiderY && e.getY() <= spiderY + 50) {
+            if (e.getX() >= spiderX && e.getX() <= spiderX + 100 &&
+                    e.getY() >= spiderY && e.getY() <= spiderY + 100) {
                 sp.dragging(true);
             }
         }
@@ -127,8 +127,8 @@ public class SpiderPieces extends JPanel {
 
     public void drawSpiderPieces(Graphics g) {
         for (Spider sp : spider) {
-            int spiderX = sp.getX() - 50 / 2;
-            int spiderY = sp.getY() - 50 / 2;
+            int spiderX = sp.getX() - 100 / 2;
+            int spiderY = sp.getY() - 100 / 2;
             g.drawImage(sp.getSpiderImage(), spiderX, spiderY, this);
         }
     }

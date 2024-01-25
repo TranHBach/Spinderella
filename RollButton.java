@@ -6,11 +6,24 @@ import java.io.IOException;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
+import javax.sound.sampled.*;
 
 class RollButton extends JButton implements MouseListener {
     private Image backgroundImage;
     private Image hoverImage;
     private boolean isHovered = false;
+
+    private static void playSound(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public RollButton(Character character, DicePanel[] allDicePanels, StatusLabel statusLabel,
             Function repaintFunction, Function revalidateFunction) {
@@ -36,13 +49,14 @@ class RollButton extends JButton implements MouseListener {
             public void actionPerformed(ActionEvent e) {
                 setEnabled(false);
                 // roll for 3 seconds
+                playSound("Sound/dice-142528.wav");
                 long startTime = System.currentTimeMillis();
                 Thread rollThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         long endTime = System.currentTimeMillis();
                         try {
-                            while ((endTime - startTime) / 1000F < 3) {
+                            while ((endTime - startTime) / 100F < 3) {
                                 // roll dice
                                 character.rollAllDie();
 
