@@ -12,13 +12,14 @@ public class Spider {
     private boolean isDragged = false;
     public int index = 0;
 
-    public Spider(int initialX, int initialY, String imagePath) {
+    public Spider(int index,int initialX, int initialY, String imagePath) {
         try {
             spiderImage = ImageIO.read(new File(imagePath));
             spiderImage = spiderImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.index = index;
         x = initialX;
         y = initialY;
         currentX = x;

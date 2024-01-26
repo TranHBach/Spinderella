@@ -87,7 +87,7 @@ public class SpiderPieces extends JPanel {
         } else if (currentSpider == 1) {
             otherSpider = 0;
         }
-        if (spider[otherSpider].index != index) {
+        if (spider[otherSpider].index == index) {
             return false;
         } else {
             return true;
@@ -176,10 +176,10 @@ public class SpiderPieces extends JPanel {
             }
         }
         // Spider[0] is Parker and Spider[1] is Peter, Parker get ant
-        spider[0] = new Spider(possiblespiderPosition.get(PARKERINITIALPOSITION)[0],
+        spider[0] = new Spider(PARKERINITIALPOSITION, possiblespiderPosition.get(PARKERINITIALPOSITION)[0],
                 possiblespiderPosition.get(PARKERINITIALPOSITION)[1],
                 spiderPath[0]);
-        spider[1] = new Spider(possiblespiderPosition.get(PETERINITIALPOSITION)[0],
+        spider[1] = new Spider(PETERINITIALPOSITION, possiblespiderPosition.get(PETERINITIALPOSITION)[0],
                 possiblespiderPosition.get(PETERINITIALPOSITION)[1],
                 spiderPath[1]);
 

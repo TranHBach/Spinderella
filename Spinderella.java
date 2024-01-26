@@ -37,13 +37,14 @@ public class Spinderella {
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-
-                if (keyCode == KeyEvent.VK_RIGHT) {
-                    // Call method to update map with new background and ant visibility
-                    mapPanel.swapMap("Map/map2.jpg", 3);
-                } else if (keyCode == KeyEvent.VK_LEFT) {
-                    // Call method to update map with original background and ant visibility
-                    mapPanel.swapMap("Map/map.jpg", 2);
+                if (mapPanel.mapVisibility == 2 || mapPanel.mapVisibility == 3) {
+                    if (keyCode == KeyEvent.VK_RIGHT) {
+                        // Call method to update map with new background and ant visibility
+                        mapPanel.swapMap("Map/map2.jpg", 3);
+                    } else if (keyCode == KeyEvent.VK_LEFT) {
+                        // Call method to update map with original background and ant visibility
+                        mapPanel.swapMap("Map/map.jpg", 2);
+                    }
                 }
             }
 

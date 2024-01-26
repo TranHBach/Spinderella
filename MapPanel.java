@@ -15,7 +15,7 @@ class MapPanel extends JPanel {
     private Image title;
 
     private Character character = new Character();
-    private int mapVisibility = 1;
+    public int mapVisibility = 1;
 
     private AntPieces antPieces;
 
