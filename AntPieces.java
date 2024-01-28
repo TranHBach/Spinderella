@@ -123,7 +123,6 @@ class AntPieces extends JPanel {
             if (e.getX() >= pieceX && e.getX() <= pieceX + pieceWidth &&
                     e.getY() >= pieceY && e.getY() <= pieceY + pieceHeight &&
                     currentPositionIndex[i] != 15 && character.remainingAntMove > 0) {
-
                 // Move the piece to the next possible position
                 int currentPosition = currentPositionIndex[i];
                 int nextPosition = currentPosition + 1;

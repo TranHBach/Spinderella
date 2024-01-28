@@ -100,7 +100,7 @@ class MapPanel extends JPanel {
         quitButton = new QuitButton();
         this.add(quitButton);
         this.add(playButton);
-
+        character.addRollButton(rollButton);
         setLayout(null);
 
         this.addMouseListener(new MouseAdapter() {

@@ -82,8 +82,6 @@ class RollButton extends JButton implements MouseListener {
                             statusLabel.setTurn(String.valueOf(character.getTurn() + 1));
                             statusLabel.setSpiderMove(character.remainingSpiderMove);
                             statusLabel.setObjectMove(character.objectMove);
-
-                            setEnabled(true);
                         } catch (InterruptedException ex) {
                             System.out.println("Threading Error: " + ex);
                         }

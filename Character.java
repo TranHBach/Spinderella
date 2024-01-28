@@ -9,14 +9,20 @@ public class Character {
     public int remainingSpiderMove = 0;
     // objectMove = 1 means ant move, 2 means spider move, 3 means either can move.
     public int objectMove = 0;
+    private RollButton rollButton;
 
     // Getters and setters for x and y coordinates
+    public void addRollButton(RollButton rollButton) {
+        this.rollButton = rollButton;
+    }
+
     public int getTurn() {
         return playerTurn;
     }
 
     public void changeTurn() {
         this.playerTurn = (playerTurn + 1) % playerCount;
+        rollButton.setEnabled(true);
     }
 
     public int getPlayerCount() {
@@ -33,7 +39,7 @@ public class Character {
     }
     
     public void rollSpiderDie() {
-        int numberOfMove = rand.nextInt(6) + 1;
+        int numberOfMove = rand.nextInt(3) + 1;
         remainingSpiderMove = numberOfMove;
     }
 
