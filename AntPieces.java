@@ -1,4 +1,7 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 import java.awt.event.MouseEvent;
@@ -40,6 +43,18 @@ class AntPieces extends JPanel {
     private int[] countWin = new int[] { 0, 0, 0, 0 };
     private ArrayList<Stack<Integer>> antIndexOnTop = new ArrayList<>();
 
+    private static void playSound(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public boolean executeAnt(int antPosition) {
         int topOfPosition = antIndexOnTop.get(antPosition).lastElement();
         if (topOfPosition == -1) {
@@ -62,16 +77,7 @@ class AntPieces extends JPanel {
         System.out.println();
     }
 
-    public AntPieces(String[] antImagesPath, Function triggerEndGameFunction, Character character) {
-        this.triggerEndGameFunction = triggerEndGameFunction;
-        for (int i = 0; i < 17; i++) {
-            antIndexOnTop.add(new Stack<>());
-        }
-        for (int i = 0; i < 17; i++) {
-            if (antIndexOnTop.get(i).empty()) {
-                antIndexOnTop.get(i).add(-1);
-            }
-        }
+    public void loadPieces(String[] antImagesPath, Character character) {
         try {
             for (int i = 0; i < character.getPlayerCount(); i++) {
                 for (int[] position : Positions) {
@@ -94,6 +100,19 @@ class AntPieces extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public AntPieces(Function triggerEndGameFunction) {
+        this.triggerEndGameFunction = triggerEndGameFunction;
+        for (int i = 0; i < 17; i++) {
+            antIndexOnTop.add(new Stack<>());
+        }
+        for (int i = 0; i < 17; i++) {
+            if (antIndexOnTop.get(i).empty()) {
+                antIndexOnTop.get(i).add(-1);
+            }
+        }
+
     }
 
     public ArrayList<Ant> getPieces() {
@@ -124,6 +143,7 @@ class AntPieces extends JPanel {
                     e.getY() >= pieceY && e.getY() <= pieceY + pieceHeight &&
                     currentPositionIndex[i] != 15 && character.remainingAntMove > 0) {
                 // Move the piece to the next possible position
+                playSound("Sound/cartoon-jump-6462.wav");
                 int currentPosition = currentPositionIndex[i];
                 int nextPosition = currentPosition + 1;
                 if (currentPosition != 0) {
@@ -176,10 +196,11 @@ class AntPieces extends JPanel {
                     x = 35;
                     y = 35;
                 }
-                antPieces.get(i).setX(newPosition[0] + x);
-                antPieces.get(i).setY(newPosition[1] + y);
+                // antPieces.get(i).setX(newPosition[0] + x);
+                // antPieces.get(i).setY(newPosition[1] + y);
 
-                repaintFunction.apply();
+                // repaintFunction.apply();
+                antPieces.get(i).move(newPosition[0] + x, newPosition[1] + y, repaintFunction);
                 break;
             }
         }

@@ -1,9 +1,13 @@
 import java.util.*;
 import java.awt.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class SpiderPieces extends JPanel {
     private static final int PARKERINITIALPOSITION = 30;
@@ -16,6 +20,18 @@ public class SpiderPieces extends JPanel {
     private Function repaintFunction;
     private Character character;
     private StatusLabel statusLabel;
+
+    private static void playSound(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     // 105 pixel each location
     public double pythagore(int x1, int y1, int x2, int y2) {
@@ -107,6 +123,7 @@ public class SpiderPieces extends JPanel {
                         || (100 < moveDistance && moveDistance < 110))
                         && character.remainingSpiderMove > 0 && preventSameLocation(index, i)) {
                     sp.moveTo(possiblespiderPosition.get(index)[0], possiblespiderPosition.get(index)[1]);
+                    playSound("Sound/interface-124464.wav");
                     sp.setCurrentPosition(sp.getX(), sp.getY());
                     sp.index = index;
                     character.remainingSpiderMove--;

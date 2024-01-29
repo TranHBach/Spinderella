@@ -1,7 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 import java.io.File;
@@ -10,31 +7,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 
-class PlayButton extends JButton implements MouseListener {
+class MinusButton extends JButton implements MouseListener {
     private Image backgroundImage;
     private Image hoverImage;
     private boolean isHovered = false;
 
-    private static Clip playSound(String filePath) {
+    public MinusButton(Function triggerGameScreen) {
         try {
-            File soundFile = new File(filePath);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-            return clip;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    public PlayButton(Function triggerGameScreen) {
-        Clip menuSound = playSound("Sound/Menu.wav");
-        try {
-            backgroundImage = ImageIO.read(new File("Menu/PixelPlayButtonHover.png"));
-            hoverImage = ImageIO.read(new File("Menu/PixelPlayButton.png"));
+            backgroundImage = ImageIO.read(new File("Menu/minus.png"));
+            hoverImage = ImageIO.read(new File("Menu/minus.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,18 +24,15 @@ class PlayButton extends JButton implements MouseListener {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setOpaque(false);
-        int width = (int) Math.round(626 / 2);
-        int height = (int) Math.round(309 / 2);
-        setBounds(340, 450, width, height);
+        int size = (int) Math.round(1024 / 20);
+        setBounds(360, 510, size, size);
 
         addMouseListener(this); // Add MouseListener to handle hover effect
 
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuSound.close();
                 triggerGameScreen.apply();
-                playSound("Sound/Game.wav");
             }
         });
     }

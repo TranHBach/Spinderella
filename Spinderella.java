@@ -12,8 +12,8 @@ public class Spinderella {
         int frameHeight = 783;
         frame.setBounds(0, 0, frameWidth, frameHeight);
 
-        MapPanel mapPanel = new MapPanel(new String[] {"Menu/JungleBackground.png", "Map/diceBackground.png"},
-                new String[] { "Ant/Ant-8-blue.png", "Ant/Ant-8-green.png", "Ant/Ant-8-pink.png", "Ant/Ant-8-red.png" },
+        MapPanel mapPanel = new MapPanel(new String[] {"Menu/PixelJungleBackground.png", "Map/diceBackground.png"},
+                new String[] { "Ant/antblue.png", "Ant/antgreen.png", "Ant/antyellow.png", "Ant/antred.png" },
                 new String[] { "Dices/AntDices/", "Dices/SpiderDices/", "Dices/GeneralDices/" },
                 new String[] { "Spider/Spider.png", "Spider/Spider2.png" });
 

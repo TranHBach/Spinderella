@@ -14,8 +14,8 @@ class QuitButton extends JButton implements MouseListener {
 
     public QuitButton() {
         try {
-            backgroundImage = ImageIO.read(new File("Menu/QuitButton.png"));
-            hoverImage = ImageIO.read(new File("Menu/QuitButtonHover.png"));
+            backgroundImage = ImageIO.read(new File("Menu/PixelExitButtonHover.png"));
+            hoverImage = ImageIO.read(new File("Menu/PixelExitButton.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,9 +24,9 @@ class QuitButton extends JButton implements MouseListener {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setOpaque(false);
-        int width = (int) Math.round(1024 / 4);
-        int height = (int) Math.round(768 / 4);
-        setBounds(370, 480, width, height);
+        int width = (int) Math.round(626 / 2);
+        int height = (int) Math.round(309 / 2);
+        setBounds(340, 600, width, height);
 
         addMouseListener(this); // Add MouseListener to handle hover effect
 
