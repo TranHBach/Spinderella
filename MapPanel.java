@@ -92,7 +92,9 @@ class MapPanel extends JPanel {
         VictoriousLabel victoriousLabel = new VictoriousLabel("Player " + (character.getTurn() + 1));
         this.add(victoriousLabel);
         setAllGameComponentStatus(false);
-        swapMap("VictoryScreen/VictoryScreen.png", 3);
+        quitButton.setVisible(false);
+        playButton.setVisible(false);
+        swapMap("VictoryScreen/VictoryScreen.png", 4);
     }
 
     // 1 for Menu, 2 for ant map visible, 3 for spider map visible, 4 for victory

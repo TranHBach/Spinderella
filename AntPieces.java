@@ -135,7 +135,6 @@ class AntPieces extends JPanel {
 
     public void detectAndMoveAnt(MouseEvent e, Character character, StatusLabel statusLabel, Function repaintFunction) {
         int currentTurn = character.getTurn();
-        int numberOfPlayer = character.getPlayerCount();
         for (int i = currentTurn * 4; i < currentTurn * 4 + 4; i++) {
             int pieceX = antPieces.get(i).getX() - pieceWidth / 2;
             int pieceY = antPieces.get(i).getY() - pieceHeight / 2;
@@ -171,8 +170,8 @@ class AntPieces extends JPanel {
 
                 // 15 is the number of moves needed to reach the end. Change to 1 if need to
                 // test end game screen.
-                if (currentPositionIndex[i] == 15) {
-                    int playerID = Math.round(i / numberOfPlayer);
+                if (currentPositionIndex[i] == 1) {
+                    int playerID = Math.round(i / 4);
                     countWin[playerID]++;
                     // Check if one player got 3 ant to finish line => Print end game.
                     if (countWin[playerID] == 3) {

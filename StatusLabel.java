@@ -9,7 +9,8 @@ class StatusLabel extends JPanel {
     private Function repaintFunction;
 
     public void initializeAllLabel() {
-        Font gameFont = new Font("Comic Sans MS", Font.PLAIN, 16); // You can adjust the size as needed
+        // Font gameFont = new Font("Comic Sans MS", Font.PLAIN, 16); // You can adjust the size as needed
+        Font gameFont = CustomFontLoader.loadFont("Font/SuperLegendBoy-4w8Y.ttf", 16);
         playerTurnLabel.setFont(gameFont);
         antMoveLabel.setFont(gameFont);
         spiderMoveLabel.setFont(gameFont);
@@ -36,7 +37,7 @@ class StatusLabel extends JPanel {
 
         addLabelToPanel();
 
-        setBounds(20, 10, 350, 60); // Adjust the position and size as needed
+        setBounds(20, 10, 500, 60); // Adjust the position and size as needed
         // setOpaque(true); // Make the label opaque so that the background color is
         // visible
 
