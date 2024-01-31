@@ -39,7 +39,7 @@ public class Character {
     }
     
     public void rollSpiderDie() {
-        int numberOfMove = rand.nextInt(3) + 1;
+        int numberOfMove = rand.nextInt(2) + 2;
         remainingSpiderMove = numberOfMove;
     }
 

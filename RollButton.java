@@ -56,7 +56,7 @@ class RollButton extends JButton implements MouseListener {
                     public void run() {
                         long endTime = System.currentTimeMillis();
                         try {
-                            while ((endTime - startTime) / 100F < 3) {
+                            while ((endTime - startTime) / 1000F < 1.5) {
                                 // roll dice
                                 character.rollAllDie();
 
