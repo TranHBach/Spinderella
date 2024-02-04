@@ -12,6 +12,10 @@ class QuitButton extends JButton implements MouseListener {
     private Image hoverImage;
     private boolean isHovered = false;
 
+    public void exitGame() {
+        System.exit(0);
+    }
+
     public QuitButton() {
         try {
             backgroundImage = ImageIO.read(new File("Menu/PixelExitButtonHover.png"));
@@ -33,7 +37,7 @@ class QuitButton extends JButton implements MouseListener {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                exitGame();
             }
         });
     }
