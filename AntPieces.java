@@ -170,7 +170,7 @@ class AntPieces extends JPanel {
 
                 // 15 is the number of moves needed to reach the end. Change to 1 if need to
                 // test end game screen.
-                if (currentPositionIndex[i] == 1) {
+                if (currentPositionIndex[i] == 15) {
                     int playerID = Math.round(i / 4);
                     countWin[playerID]++;
                     // Check if one player got 3 ant to finish line => Print end game.
